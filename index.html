@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SWIFT LEAD MANAGER HUB™</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+/* Root CSS Variables for seamless light/dark switching */
+:root {
+--bg-main: #f3f4f6;
+--bg-card: #ffffff;
+--bg-header: #ffffff;
+--bg-sidebar: #e5e7eb;
+--bg-input: #fafafa;
+--bg-input-focus: #ffffff;
+--text-main: #111827;
+--text-muted: #6b7280;
+--border-color: #d1d5db;
+--card-shadow: rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] {
+--bg-main: #111827;
+--bg-card: #1f2937;
+--bg-header: #1f2937;
+--bg-sidebar: #111827;
+--bg-input: #374151;
+--bg-input-focus: #1f2937;
+--text-main: #f9fafb;
+--text-muted: #9ca3af;
+--border-color: #4b5563;
+--card-shadow: rgba(0,0,0,0.3);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background: var(--bg-main);
+color: var(--text-main);
+transition: background 0.3s, color 0.3s;
+}
+
+header{
+background: var(--bg-header);
+padding:25px;
+border-bottom:1px solid var(--border-color);
+position:sticky;
+top:0;
+z-index:1000;
+transition: background 0.3s, border-color 0.3s;
+}
+
+header h1{
+font-size:34px;
+font-weight:800;
+}
+
+header p{
+margin-top:8px;
+color: var(--text-muted);
+}
+
+.global-bar{
+background: var(--bg-header);
+padding:20px;
+border-bottom:1px solid var(--border-color);
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:290px;
+background: var(--bg-sidebar);
+padding:25px;
+border-right:1px solid var(--border-color);
+display: flex;
+flex-direction: column;
+gap: 24px;
+transition: background 0.3s, border-color 0.3s;
+}
+
+.sidebar h2{
+margin-bottom:15px;
+font-size:20px;
+font-weight: 800;
+}
+
+.sidebar-header-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 15px;
+}
+
+.sidebar-header-row h2 {
+margin-bottom: 0;
+}
+
+.theme-toggle-btn {
+background: #2563eb;
+color: #ffffff;
+border: none;
+padding: 8px 12px;
+border-radius: 8px;
+font-weight: 700;
+font-size: 11px;
+text-transform: uppercase;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.theme-toggle-btn:hover {
+background: #1d4ed8;
+}
+
+.sidebar-section-title {
+font-size: 11px;
+font-weight: 800;
+color: #2563eb;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 10px;
+border-bottom: 1px dashed var(--border-color);
+padding-bottom: 4px;
+}
+
+.tab-btn{
+width:100%;
+padding:18px;
+margin-bottom:14px;
+border:none;
+border-radius:14px;
+background: var(--bg-card);
+color: var(--text-main);
+cursor:pointer;
+font-weight:700;
+text-align:left;
+transition:.3s;
+border:1px solid var(--border-color);
+}
+
+.tab-btn:hover{
+background:#dbeafe;
+color: #111827;
+}
+
+.tab-btn.active{
+background:#2563eb;
+color:white;
+border-color: #2563eb;
+}
+
+.link-stack {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.link-btn {
+display: block;
+text-decoration: none;
+background: var(--bg-card);
+color: var(--text-main);
+border: 1px solid var(--border-color);
+padding: 12px;
+border-radius: 8px;
+font-size: 13px;
+font-weight: 700;
+transition: 0.2s;
+}
+
+.link-btn:hover {
+background: #dbeafe;
+border-color: #2563eb;
+color: #111827;
+}
+
+.scratchpad-area {
+width: 100%;
+min-height: 80px;
+background: var(--bg-card);
+border: 1px solid var(--border-color);
+border-radius: 8px;
+padding: 10px;
+color: var(--text-main);
+font-size: 13px;
+resize: none;
+outline: none;
+}
+
+.dispo-btn {
+width: 100%;
+background: #2563eb;
+color: #ffffff;
+border: none;
+padding: 12px;
+border-radius: 8px;
+font-weight: 800;
+font-size: 12px;
+text-transform: uppercase;
+cursor: pointer;
+margin-top: 6px;
+letter-spacing: 0.5px;
+transition: 0.2s;
+}
+
+.dispo-btn:hover {
+background: #1d4ed8;
+}
+
+.social-footer {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 8px;
+}
+
+.social-btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+text-decoration: none;
+padding: 10px;
+font-size: 11px;
+font-weight: 800;
+text-transform: uppercase;
+border-radius: 6px;
+color: white;
+}
+.fb-btn { background: #1877F2; }
+.yt-btn { background: #FF0000; }
+
+.content{
+flex:1;
+padding:35px;
+}
+
+.tab-content{
+display:none;
+}
+
+.tab-content.active{
+display:block;
+}
+
+.card{
+background: var(--bg-card);
+padding:35px;
+border-radius:22px;
+margin-bottom:30px;
+border:1px solid var(--border-color);
+box-shadow:0 5px 20px var(--card-shadow);
+transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.card h2{
+font-size:30px;
+margin-bottom:25px;
+}
+
+.section-title{
+margin-top:40px;
+margin-bottom:20px;
+font-size:22px;
+font-weight:800;
+color:#2563eb;
+}
+
+.question-block{
+margin-bottom:28px;
+}
+
+.question{
+font-weight:700;
+font-size:16px;
+margin-bottom:10px;
+line-height:1.7;
+}
+
+textarea,
+input,
+select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid var(--border-color);
+background: var(--bg-input);
+color: var(--text-main);
+font-size:15px;
+margin-top:8px;
+outline: none;
+transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+border-color: #2563eb;
+background: var(--bg-input-focus);
+}
+
+textarea{
+min-height:90px;
+resize:vertical;
+}
+
+.rebuttal{
+margin-top:12px;
+background: var(--bg-main);
+padding:15px;
+border-left:5px solid #2563eb;
+border-radius:10px;
+line-height:1.7;
+color: var(--text-main);
+transition: background 0.3s;
+}
+
+.closing-script-block {
+background: var(--bg-main);
+padding: 20px;
+border-radius: 12px;
+margin-top: 30px;
+margin-bottom: 30px;
+border-left: 5px solid #10b981;
+line-height: 1.8;
+}
+
+.closing-script-block p {
+margin-bottom: 12px;
+font-size: 15px;
+}
+
+.closing-script-block p:last-child {
+margin-bottom: 0;
+}
+
+.lead-status-wrap{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-top:15px;
+}
+
+.lead-option{
+padding:14px 18px;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
+border:2px solid transparent;
+transition:.3s;
+display: flex;
+align-items: center;
+}
+
+.lead-option input{
+margin-right:8px;
+margin-top: 0;
+width: auto;
+}
+
+.hot-option{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.warm-option{
+background:#fef3c7;
+color:#92400e;
+}
+
+.cold-option{
+background:#dbeafe;
+color:#1e3a8a;
+}
+
+.lead-option.active{
+border:2px solid var(--text-main);
+transform:scale(1.03);
+}
+
+.button-row{
+display:flex;
+gap:15px;
+margin-top:35px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:16px 24px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:700;
+transition:.3s;
+}
+
+.save-btn{
+background:#2563eb;
+color:white;
+}
+
+.pdf-btn{
+background:#111827;
+color:white;
+border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .pdf-btn {
+background: #374151;
+color: white;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+@media(max-width: 992px) {
+.container { flex-direction: column; }
+.sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>SWIFT LEAD MANAGER HUB™</h1>
+<p>Seller Intake • Cold Calling • Qualification • Rebuttals • PDF Export</p>
+</header>
+
+<div class="global-bar">
+<div>
+<label><strong>Business Name</strong></label>
+<input type="text" id="globalBusinessName" placeholder="Your Company">
+</div>
+
+<div>
+<label><strong>Seller Full Name</strong></label>
+<input type="text" id="globalSellerName" placeholder="John Doe">
+</div>
+
+<div>
+<label><strong>Property Address</strong></label>
+<input type="text" id="globalPropertyAddress" placeholder="123 Main St">
+</div>
+
+<div>
+<label><strong>Agent Name</strong></label>
+<input type="text" id="globalAgentName" placeholder="Agent Smith">
+</div>
+
+<div>
+<label><strong>Phone Number</strong></label>
+<input type="text" id="globalPhoneNumber" placeholder="(555) 555-5555">
+</div>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+<div>
+<div class="sidebar-header-row">
+<h2>Scripts</h2>
+<button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+</div>
+<button class="tab-btn active" onclick="openTab(event,'tab1')">📞 Intake Call Script</button>
+<button class="tab-btn" onclick="openTab(event,'tab2')">🏠 Seller Call Script</button>
+<button class="tab-btn" onclick="openTab(event,'tab3')">⚡ 60-Second Offer Script</button>
+</div>
+
+<div>
+<div class="sidebar-section-title">Useful Links</div>
+<div class="link-stack">
+<a href="https://swiftie83.github.io/TheSwiftplaybook/" target="_blank" class="link-btn">📖 Swift Wholesaling Playbook ↗</a>
+<a href="https://docs.google.com/document/d/1QWwFLUkfi3o2w2SMQVPMJ5NFdWA4Zpcs-36NOcgJgGA/edit?usp=sharing" target="_blank" class="link-btn" style="border-style: dashed; color: #2563eb;">⚡ Swift Rebuttal Blueprints ↗</a>
+<a href="https://swiftie83.github.io/Swift-Seller-Negotiation-Dashboard/" target="_blank" class="link-btn">📊 Seller Negotiation Dashboard ↗</a>
+<a href="https://swiftie83.github.io/Swiftie83-Swift-Offer-CRM-V5" target="_blank" class="link-btn">💼 Swift Offer CRM ↗</a>
+<a href="https://swiftie83.github.io/Swift-Acquisition-Hub/" target="_blank" class="link-btn">🎯 Swift Acquisition Hub ↗</a>
+<a href="https://swiftie83.github.io/Swift-Disposal-Hub/" target="_blank" class="link-btn">🧱 Swift Disposal Hub ↗</a>
+<a href="https://swiftie83.github.io/SWIFT-A.G.E.N.T.-DOMINATION-/" target="_blank" class="link-btn" style="color: #2563eb; font-weight: 800;">👑 SWIFT A.G.E.N.T. DOMINATION™ ↗</a>
+</div>
+</div>
+
+<div>
+<div class="sidebar-section-title">Active Buyer Scratchpad</div>
+<textarea class="scratchpad-area" id="dispoScratchpad" placeholder="Drop custom buyer terms, lock-out dates, or unique access instructions here..."></textarea>
+<button class="dispo-btn" onclick="copyDispoNote()">Copy Dispo Note</button>
+</div>
+
+<div>
+<div class="sidebar-section-title">Community Broadcasts</div>
+<div class="social-footer">
+<a href="https://facebook.com/share/g/1AfaCVgUmP" target="_blank" class="social-btn fb-btn">Facebook</a>
+<a href="https://www.youtube.com/@swiftequitysolutions" target="_blank" class="social-btn yt-btn">YouTube</a>
+</div>
+</div>
+</div>
+
+<div class="content">
+
+<!-- TAB 1 -->
+<div id="tab1" class="tab-content active">
+<div class="card">
+<h2>📞 FULL INTAKE CALL SCRIPT</h2>
+
+<div class="section-title">OPENING</div>
+<div class="question-block">
+<div class="question">Hi, is this <span class="dynamic-seller">[Owner’s Name]</span>?</div>
+<textarea data-label="Opening Check-in"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">Hi <span class="dynamic-seller">[Name]</span>, this is <span class="dynamic-agent">[VA Name]</span> calling on behalf of <span class="dynamic-business">(Your Company)</span>. We’re local investors actively buying in your area. I reviewed your property and wanted to see if you were interested in selling.</div>
+<textarea data-label="Company Intro Pitch"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">Did I catch you at an okay time?</div>
+<textarea data-label="Timing Check"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">Could you tell me more about the property — beds, baths, square footage, and property history?</div>
+<textarea data-label="Property Overview Basics"></textarea>
+<div class="rebuttal">“Great question! I’m looking to understand the condition, updates, and repairs needed so I can get a clearer picture of the property.”</div>
+</div>
+
+<div class="section-title">PROPERTY CONDITION</div>
+<div class="question-block"><div class="question">How old is the roof?</div><textarea data-label="Roof Age"></textarea></div>
+<div class="question-block"><div class="question">When was the kitchen last updated?</div><textarea data-label="Kitchen Updates"></textarea></div>
+<div class="question-block"><div class="question">Does the HVAC system work and when was it serviced?</div><textarea data-label="HVAC Condition"></textarea></div>
+<div class="question-block"><div class="question">Any foundation issues or cracks?</div><textarea data-label="Foundation Diagnostics"></textarea></div>
+<div class="question-block"><div class="question">Any cracks in walls or ceilings?</div><textarea data-label="Wall/Ceiling Cracks"></textarea></div>
+<div class="question-block"><div class="question">Anything else needing updates or repairs?</div><textarea data-label="General Repairs Needed"></textarea></div>
+<div class="question-block"><div class="question">Estimated repair cost?</div><textarea data-label="Estimated Repair Cost"></textarea></div>
+
+<div class="section-title">SELLER MOTIVATION</div>
+<div class="question-block">
+<div class="question">Why are you considering selling?</div>
+<select data-label="Motivation Type">
+<option value="">Select Motivation</option>
+<option value="Preforeclosure">Preforeclosure</option>
+<option value="Divorce">Divorce</option>
+<option value="Inheritance">Inheritance</option>
+<option value="Tired Landlord">Tired Landlord</option>
+<option value="Relocation">Relocation</option>
+<option value="Health Issues">Health Issues</option>
+</select>
+<textarea data-label="Motivation Context" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
+<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+</div>
+
+<div class="section-title">OCCUPANCY</div>
+<div class="question-block">
+<div class="question">Do you live there now or is it rented/vacant?</div>
+<select data-label="Current Occupancy Status">
+<option value="">Select Occupancy</option>
+<option value="Owner Occupied">Owner Occupied</option>
+<option value="Rented">Rented</option>
+<option value="Vacant">Vacant</option>
+<option value="Squatters">Squatters</option>
+</select>
+<textarea data-label="Occupancy Notes" style="margin-top:10px;" placeholder="Lease rules, structural state, etc..."></textarea>
+</div>
+<div class="question-block"><div class="question">If vacant, how long?</div><textarea data-label="Vacancy Length"></textarea></div>
+<div class="question-block"><div class="question">Do you have current photos?</div><textarea data-label="Photos Availability"></textarea></div>
+
+<div class="section-title">TIMELINE + FINANCIAL</div>
+<div class="question-block"><div class="question">How quickly do you need to sell?</div><textarea data-label="Selling Timeline Urgency"></textarea></div>
+<div class="question-block"><div class="question">Mortgage or free and clear?</div><textarea data-label="Mortgage Encumbrance Status"></textarea></div>
+<div class="question-block"><div class="question">Monthly payment?</div><textarea data-label="Monthly Liability Amount"></textarea></div>
+<div class="question-block"><div class="question">Current or behind?</div><textarea data-label="Payment Standing Status"></textarea></div>
+
+<div class="section-title">PRICE</div>
+<div class="question-block">
+<div class="question">Have you thought about what price you'd want?</div>
+<textarea data-label="Target Asking Price"></textarea>
+<div class="rebuttal">If hesitant: “That’s okay — even a rough range helps us see if this is worth exploring.”</div>
+<div class="rebuttal">If seller asks: “What would you offer?” <br><br>“That’s a great question. My job is to gather details so our acquisitions manager can run accurate numbers.”</div>
+</div>
+
+<div class="section-title">CREATIVE FINANCE</div>
+<div class="question-block">
+<div class="question">If cash doesn’t work, would you be open to:</div>
+<select data-label="Creative Financing Openness">
+<option value="">Select Strategy</option>
+<option value="Novation">Novation</option>
+<option value="Owner Financing">Owner Financing</option>
+<option value="Subject-To">Subject-To</option>
+<option value="Maybe">Maybe</option>
+<option value="No">No</option>
+</select>
+<div class="rebuttal">Options include novation, owner financing, or taking over mortgage payments.</div>
+</div>
+
+<!-- Standardized Closing Block with dynamic business variable -->
+<div class="closing-script-block">
+<p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
+<p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
+<p>Do you have any questions for me so far? Awesome!</p>
+<p><strong>Thanks again for choosing <span class="dynamic-business">(Your Company)</span> — we’re excited to work with you!</strong></p>
+</div>
+
+<div class="question-block">
+<div class="question">Write any other info you feel is important</div>
+<textarea data-label="Operational Log Notes" placeholder="Drop any additional critical details here..."></textarea>
+</div>
+
+<div class="section-title">LEAD STATUS</div>
+<div class="lead-status-wrap">
+<label class="lead-option hot-option">
+<input type="radio" name="leadStatus" value="HOT LEAD"> 🔥 HOT LEAD
+</label>
+<label class="lead-option warm-option">
+<input type="radio" name="leadStatus" value="WARM LEAD"> 🟠 WARM LEAD
+</label>
+<label class="lead-option cold-option">
+<input type="radio" name="leadStatus" value="COLD LEAD"> 🔵 COLD LEAD
+</label>
+</div>
+
+<div class="button-row">
+<button class="btn save-btn" onclick="alert('Lead Workspace Locally Saved!')">Save Lead</button>
+<button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 2 -->
+<div id="tab2" class="tab-content">
+<div class="card">
+<h2>🏠 SELLER CALL SCRIPT</h2>
+<div class="question-block"><div class="question">Do you still own the property?</div><textarea data-label="Ownership Status Validation"></textarea></div>
+<div class="question-block"><div class="question">Would you consider a cash offer?</div><textarea data-label="Cash Offer Openness"></textarea></div>
+<div class="question-block"><div class="question">Could you tell me more about the property?</div><textarea data-label="Property Secondary Profile"></textarea></div>
+
+<div class="section-title">SELLER MOTIVATION</div>
+<div class="question-block">
+<div class="question">Why are you considering selling?</div>
+<select data-label="Motivation Type (Seller Script)">
+<option value="">Select Motivation</option>
+<option value="Preforeclosure">Preforeclosure</option>
+<option value="Divorce">Divorce</option>
+<option value="Inheritance">Inheritance</option>
+<option value="Tired Landlord">Tired Landlord</option>
+<option value="Relocation">Relocation</option>
+<option value="Health Issues">Health Issues</option>
+</select>
+<textarea data-label="Motivation Context (Seller Script)" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
+<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+</div>
+
+<div class="section-title">TIMELINE & VALUE</div>
+<div class="question-block"><div class="question">How quickly would you sell?</div><textarea data-label="Disposition Velocity Needs"></textarea></div>
+<div class="question-block"><div class="question">What price would you want?</div><textarea data-label="Target Baseline Number"></textarea></div>
+<div class="rebuttal">“Even a rough number helps us see if we should explore this further.”</div>
+
+<!-- Standardized Closing Block with dynamic business variable -->
+<div class="closing-script-block">
+<p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
+<p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
+<p>Do you have any questions for me so far? Awesome!</p>
+<p><strong>Thanks again for choosing <span class="dynamic-business">(Your Company)</span> — we’re excited to work with you!</strong></p>
+</div>
+
+<div class="question-block">
+<div class="question">Write any other info you feel is important</div>
+<textarea data-label="Secondary Operational Log Notes" placeholder="Drop any additional critical details here..."></textarea>
+</div>
+
+<div class="button-row">
+<button class="btn save-btn" onclick="alert('Lead Workspace Locally Saved!')">Save Lead</button>
+<button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 3 -->
+<div id="tab3" class="tab-content">
+<div class="card">
+<h2>⚡ 60-SECOND PROPERTY CONDITION SCRIPT</h2>
+<div class="question-block">
+<div class="question">Seller says: “Just make me an offer.”</div>
+<div class="rebuttal">“That’s fair. I don’t want to throw out a random number and accidentally disrespect you.”</div>
+</div>
+
+<div class="section-title">SELLER MOTIVATION</div>
+<div class="question-block">
+<div class="question">Why are you considering selling?</div>
+<select data-label="Motivation Type (60s Script)">
+<option value="">Select Motivation</option>
+<option value="Preforeclosure">Preforeclosure</option>
+<option value="Divorce">Divorce</option>
+<option value="Inheritance">Inheritance</option>
+<option value="Tired Landlord">Tired Landlord</option>
+<option value="Relocation">Relocation</option>
+<option value="Health Issues">Health Issues</option>
+</select>
+<textarea data-label="Motivation Context (60s Script)" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
+<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+</div>
+
+<div class="section-title">PROPERTY HEALTH CHECK</div>
+<div class="question-block"><div class="question">How old is the roof?</div><textarea data-label="60s Roof Check"></textarea></div>
+<div class="question-block"><div class="question">Kitchen or bathroom updated?</div><textarea data-label="60s Living Space Check"></textarea></div>
+<div class="question-block"><div class="question">Any major repairs needed?</div><textarea data-label="60s Structural Disruption Log"></textarea></div>
+<div class="question-block"><div class="question">Is the property occupied?</div><textarea data-label="60s Physical Occupant Check"></textarea></div>
+<div class="question-block"><div class="question">Would you send photos?</div><textarea data-label="60s Photos Commit"></textarea></div>
+<div class="rebuttal">“This helps us make sure it’s a real win-win offer.”</div>
+
+<!-- Standardized Closing Block with dynamic business variable -->
+<div class="closing-script-block">
+<p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
+<p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
+<p>Do you have any questions for me so far? Awesome!</p>
+<p><strong>Thanks again for choosing <span class="dynamic-business">(Your Company)</span> — we’re excited to work with you!</strong></p>
+</div>
+
+<div class="question-block">
+<div class="question">Write any other info you feel is important</div>
+<textarea data-label="60s Operational Log Notes" placeholder="Drop any additional critical details here..."></textarea>
+</div>
+
+<div class="button-row">
+<button class="btn save-btn" onclick="alert('Lead Workspace Locally Saved!')">Save Lead</button>
+<button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function toggleTheme() {
+    const htmlEl = document.documentElement;
+    const currentTheme = htmlEl.getAttribute('data-theme');
+    const toggleBtn = document.getElementById('themeToggle');
+    
+    if (currentTheme === 'dark') {
+        htmlEl.removeAttribute('data-theme');
+        toggleBtn.innerText = "🌙 Dark Mode";
+    } else {
+        htmlEl.setAttribute('data-theme', 'dark');
+        toggleBtn.innerText = "☀️ Light Mode";
+    }
+}
+
+const businessInput = document.getElementById('globalBusinessName');
+const sellerInput = document.getElementById('globalSellerName');
+const agentInput = document.getElementById('globalAgentName');
+
+function updateDynamicNames() {
+    const businessName = businessInput.value.trim() || "(Your Company)";
+    const sellerName = sellerInput.value.trim() || "[Owner's Name]";
+    const agentName = agentInput.value.trim() || "[VA Name]";
+    
+    document.querySelectorAll('.dynamic-business').forEach(el => {
+        el.innerText = businessName;
+    });
+    
+    document.querySelectorAll('.dynamic-seller').forEach(el => {
+        el.innerText = sellerName;
+    });
+    
+    document.querySelectorAll('.dynamic-agent').forEach(el => {
+        el.innerText = agentName;
+    });
+}
+
+businessInput.addEventListener('input', updateDynamicNames);
+sellerInput.addEventListener('input', updateDynamicNames);
+agentInput.addEventListener('input', updateDynamicNames);
+
+function openTab(evt, tabName){
+let tabcontent = document.getElementsByClassName("tab-content");
+for(let i=0;i<tabcontent.length;i++){
+tabcontent[i].style.display="none";
+tabcontent[i].classList.remove("active");
+}
+let tabbuttons = document.getElementsByClassName("tab-btn");
+for(let i=0;i<tabbuttons.length;i++){
+tabbuttons[i].classList.remove("active");
+}
+const currentTab = document.getElementById(tabName);
+currentTab.style.display="block";
+currentTab.classList.add("active");
+evt.currentTarget.classList.add("active");
+}
+
+const leadOptions = document.querySelectorAll('.lead-option');
+leadOptions.forEach(option => {
+option.addEventListener('click', () => {
+leadOptions.forEach(o => o.classList.remove('active'));
+option.classList.add('active');
+const radio = option.querySelector('input[type="radio"]');
+if(radio) radio.checked = true;
+});
+});
+
+function copyDispoNote() {
+const pad = document.getElementById("dispoScratchpad");
+pad.select();
+pad.setSelectionRange(0, 99999);
+navigator.clipboard.writeText(pad.value);
+alert("Dispo Note copied to clipboard!");
+}
+
+async function downloadPDF(){
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
+let y = 20;
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(22);
+doc.text("SWIFT LEAD MANAGER HUB™", 10, y);
+y += 15;
+
+doc.setFontSize(11);
+doc.setFont("helvetica", "normal");
+
+const business = document.getElementById("globalBusinessName").value || "(Your Company)";
+const seller = document.getElementById("globalSellerName").value || "N/A";
+const property = document.getElementById("globalPropertyAddress").value || "N/A";
+const agent = document.getElementById("globalAgentName").value || "N/A";
+const phone = document.getElementById("globalPhoneNumber").value || "N/A";
+
+doc.text("Company: " + business, 10, y); y += 8;
+doc.text("Seller: " + seller, 10, y); y += 8;
+doc.text("Property: " + property, 10, y); y += 8;
+doc.text("Agent: " + agent, 10, y); y += 8;
+doc.text("Phone: " + phone, 10, y); y += 14;
+
+doc.setLineWidth(0.5);
+doc.line(10, y, 200, y);
+y += 12;
+
+const activeTab = document.querySelector(".tab-content.active");
+if(activeTab) {
+const titleText = activeTab.querySelector("h2").innerText;
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+doc.text(titleText, 10, y);
+y += 10;
+doc.setFont("helvetica", "normal");
+doc.setFontSize(11);
+
+const operationalFields = activeTab.querySelectorAll('textarea, select');
+operationalFields.forEach(field => {
+let val = field.value;
+let descriptiveLabel = field.getAttribute("data-label") || "Input Field";
+
+if(val && val.trim() !== "") {
+let textLine = descriptiveLabel + ": " + val.trim();
+let splitLines = doc.splitTextToSize(textLine, 180);
+
+doc.text(splitLines, 10, y);
+y += splitLines.length * 7 + 2;
+
+if(y > 270){
+doc.addPage();
+y = 20;
+}
+}
+});
+}
+
+const selectedLead = document.querySelector('input[name="leadStatus"]:checked');
+if(selectedLead){
+y += 8;
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+doc.text("LEAD STATUS: " + selectedLead.value, 10, y);
+}
+
+doc.save("Swift-Lead-Manager.pdf");
+}
+</script>
+</body>
+</html>
