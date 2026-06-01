@@ -23,6 +23,7 @@
 --text-muted: #6b7280;
 --border-color: #d1d5db;
 --card-shadow: rgba(0,0,0,0.05);
+--dynamic-highlight: #2563eb; /* High visibility blue for light mode */
 }
 
 [data-theme="dark"] {
@@ -36,6 +37,7 @@
 --text-muted: #9ca3af;
 --border-color: #4b5563;
 --card-shadow: rgba(0,0,0,0.3);
+--dynamic-highlight: #60a5fa; /* Crisp, readable blue for dark mode */
 }
 
 *{
@@ -284,27 +286,106 @@ color:#2563eb;
 }
 
 .question-block{
-margin-bottom:28px;
+margin-bottom:20px;
 }
 
 .question{
 font-weight:700;
 font-size:16px;
-margin-bottom:10px;
-line-height:1.7;
+margin-bottom:6px;
+line-height:1.6;
 }
 
+/* DYNAMIC CONTENT REPLACEMENT BLUE HIGHLIGHTS */
+.dynamic-business,
+.dynamic-seller,
+.dynamic-agent,
+.dynamic-property {
+color: var(--dynamic-highlight);
+font-weight: 700;
+transition: color 0.3s;
+}
+
+/* INTERACTIVE PSYCHOLOGICAL TRACKER SYSTEM */
+.psych-tracker {
+display: flex;
+justify-content: space-between;
+background: var(--bg-main);
+padding: 12px;
+border-radius: 12px;
+margin-bottom: 25px;
+border: 1px dashed var(--border-color);
+gap: 8px;
+}
+
+.tracker-step {
+flex: 1;
+text-align: center;
+font-size: 11px;
+font-weight: 800;
+color: var(--text-muted);
+padding: 8px;
+border-radius: 6px;
+transition: 0.3s;
+text-transform: uppercase;
+}
+
+.tracker-step.active-step {
+background: #2563eb;
+color: #ffffff;
+box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+}
+
+/* INSTANT REBUTTAL INJECTIONS */
+.instant-rebuttal-btn {
+background: none;
+border: 1px solid #2563eb;
+color: #2563eb;
+padding: 5px 10px;
+font-size: 11px;
+font-weight: 700;
+border-radius: 6px;
+cursor: pointer;
+margin-top: 6px;
+transition: 0.2s;
+display: inline-block;
+}
+
+.instant-rebuttal-btn:hover {
+background: #2563eb;
+color: #fff;
+}
+
+.live-rebuttal-box {
+display: none;
+margin-top: 8px;
+background: #fffbeb;
+border-left: 4px solid #d97706;
+color: #111827;
+padding: 12px;
+border-radius: 6px;
+font-size: 13px;
+line-height: 1.5;
+}
+
+[data-theme="dark"] .live-rebuttal-box {
+background: #78350f;
+color: #fef3c7;
+border-left-color: #f59e0b;
+}
+
+/* Standardized Input Styling */
 textarea,
 input,
 select{
 width:100%;
-padding:14px;
-border-radius:12px;
+padding:8px 12px;
+border-radius:8px;
 border:1px solid var(--border-color);
 background: var(--bg-input);
 color: var(--text-main);
-font-size:15px;
-margin-top:8px;
+font-size:14px;
+margin-top:4px;
 outline: none;
 transition: background 0.3s, border-color 0.3s, color 0.3s;
 }
@@ -317,17 +398,23 @@ background: var(--bg-input-focus);
 }
 
 textarea{
-min-height:90px;
+min-height:45px;
 resize:vertical;
 }
 
+.global-bar input {
+padding: 10px 14px;
+border-radius: 10px;
+}
+
 .rebuttal{
-margin-top:12px;
+margin-top:8px;
 background: var(--bg-main);
-padding:15px;
+padding:12px;
 border-left:5px solid #2563eb;
-border-radius:10px;
-line-height:1.7;
+border-radius:8px;
+line-height:1.6;
+font-size:14px;
 color: var(--text-main);
 transition: background 0.3s;
 }
@@ -373,6 +460,7 @@ align-items: center;
 margin-right:8px;
 margin-top: 0;
 width: auto;
+padding: 0;
 }
 
 .hot-option{
@@ -515,46 +603,64 @@ transform:translateY(-2px);
 
 <div class="content">
 
-<!-- TAB 1 -->
+<!-- TAB 1: FULL INTAKE -->
 <div id="tab1" class="tab-content active">
 <div class="card">
 <h2>📞 FULL INTAKE CALL SCRIPT</h2>
 
+<!-- Intake Psych Pipeline -->
+<div class="psych-tracker">
+<div class="tracker-step active-step" id="t1-step-hook">1. Intro Hook</div>
+<div class="tracker-step" id="t1-step-condition">2. Diagnostics</div>
+<div class="tracker-step" id="t1-step-motivation">3. Situation</div>
+<div class="tracker-step" id="t1-step-anchor">4. Terms & Price</div>
+</div>
+
 <div class="section-title">OPENING</div>
 <div class="question-block">
 <div class="question">Hi, is this <span class="dynamic-seller">[Owner’s Name]</span>?</div>
-<textarea data-label="Opening Check-in"></textarea>
+<textarea data-label="Opening Check-in" onfocus="activateStep('t1', 't1-step-hook')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t1-wrong-num')">Seller Says: "Who is this / Wrong number"</span>
+<div class="live-rebuttal-box" id="reb-t1-wrong-num">
+<strong>Pivoting Script:</strong> "Ah, I might have the wrong file layout here! I was searching for the historical owner of <span class="dynamic-property">[Property Address]</span>. Do you happen to have any tie to that asset or area, or did the data records drop the ball?"
+</div>
 </div>
 
 <div class="question-block">
-<div class="question">Hi <span class="dynamic-seller">[Name]</span>, this is <span class="dynamic-agent">[VA Name]</span> calling on behalf of <span class="dynamic-business">(Your Company)</span>. We’re local investors actively buying in your area. I reviewed your property and wanted to see if you were interested in selling.</div>
-<textarea data-label="Company Intro Pitch"></textarea>
+<div class="question">Hi <span class="dynamic-seller">[Owner’s Name]</span>, this is <span class="dynamic-agent">[VA Name]</span> calling on behalf of <span class="dynamic-business">(Your Company)</span>. We’re local investors actively buying in your area. I reviewed your property and wanted to see if you were interested in selling.</div>
+<textarea data-label="Company Intro Pitch" onfocus="activateStep('t1', 't1-step-hook')"></textarea>
 </div>
 
 <div class="question-block">
 <div class="question">Did I catch you at an okay time?</div>
-<textarea data-label="Timing Check"></textarea>
+<textarea data-label="Timing Check" onfocus="activateStep('t1', 't1-step-hook')"></textarea>
 </div>
 
 <div class="question-block">
 <div class="question">Could you tell me more about the property — beds, baths, square footage, and property history?</div>
-<textarea data-label="Property Overview Basics"></textarea>
-<div class="rebuttal">“Great question! I’m looking to understand the condition, updates, and repairs needed so I can get a clearer picture of the property.”</div>
+<textarea data-label="Property Overview Basics" onfocus="activateStep('t1', 't1-step-condition')"></textarea>
 </div>
 
 <div class="section-title">PROPERTY CONDITION</div>
-<div class="question-block"><div class="question">How old is the roof?</div><textarea data-label="Roof Age"></textarea></div>
-<div class="question-block"><div class="question">When was the kitchen last updated?</div><textarea data-label="Kitchen Updates"></textarea></div>
-<div class="question-block"><div class="question">Does the HVAC system work and when was it serviced?</div><textarea data-label="HVAC Condition"></textarea></div>
-<div class="question-block"><div class="question">Any foundation issues or cracks?</div><textarea data-label="Foundation Diagnostics"></textarea></div>
-<div class="question-block"><div class="question">Any cracks in walls or ceilings?</div><textarea data-label="Wall/Ceiling Cracks"></textarea></div>
-<div class="question-block"><div class="question">Anything else needing updates or repairs?</div><textarea data-label="General Repairs Needed"></textarea></div>
-<div class="question-block"><div class="question">Estimated repair cost?</div><textarea data-label="Estimated Repair Cost"></textarea></div>
+<div class="question-block">
+<div class="question">How old is the roof?</div>
+<textarea data-label="Roof Age" onfocus="activateStep('t1', 't1-step-condition')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t1-why-asking')">Seller Says: "Why do you need to know about repairs if you're offering cash?"</span>
+<div class="live-rebuttal-box" id="reb-t1-why-asking">
+<strong>Pivoting Script:</strong> "Great question! Because we buy 100% as-is, we absorb all future repair costs so you don't have to. Getting an upfront snapshot lets us run an absolute max-value offer without needing internal contractor walkthroughs later."
+</div>
+</div>
+<div class="question-block"><div class="question">When was the kitchen last updated?</div><textarea data-label="Kitchen Updates" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Does the HVAC system work and when was it serviced?</div><textarea data-label="HVAC Condition" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Any foundation issues or cracks?</div><textarea data-label="Foundation Diagnostics" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Any cracks in walls or ceilings?</div><textarea data-label="Wall/Ceiling Cracks" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Anything else needing updates or repairs?</div><textarea data-label="General Repairs Needed" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Estimated repair cost?</div><textarea data-label="Estimated Repair Cost" onfocus="activateStep('t1', 't1-step-condition')"></textarea></div>
 
 <div class="section-title">SELLER MOTIVATION</div>
 <div class="question-block">
 <div class="question">Why are you considering selling?</div>
-<select data-label="Motivation Type">
+<select data-label="Motivation Type" onfocus="activateStep('t1', 't1-step-motivation')">
 <option value="">Select Motivation</option>
 <option value="Preforeclosure">Preforeclosure</option>
 <option value="Divorce">Divorce</option>
@@ -563,43 +669,40 @@ transform:translateY(-2px);
 <option value="Relocation">Relocation</option>
 <option value="Health Issues">Health Issues</option>
 </select>
-<textarea data-label="Motivation Context" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
-<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+<textarea data-label="Motivation Context" style="margin-top:4px;" placeholder="Add deep situational context..." onfocus="activateStep('t1', 't1-step-motivation')"></textarea>
 </div>
 
 <div class="section-title">OCCUPANCY</div>
 <div class="question-block">
 <div class="question">Do you live there now or is it rented/vacant?</div>
-<select data-label="Current Occupancy Status">
+<select data-label="Current Occupancy Status" onfocus="activateStep('t1', 't1-step-motivation')">
 <option value="">Select Occupancy</option>
 <option value="Owner Occupied">Owner Occupied</option>
 <option value="Rented">Rented</option>
 <option value="Vacant">Vacant</option>
 <option value="Squatters">Squatters</option>
 </select>
-<textarea data-label="Occupancy Notes" style="margin-top:10px;" placeholder="Lease rules, structural state, etc..."></textarea>
+<textarea data-label="Occupancy Notes" style="margin-top:4px;" placeholder="Lease rules, structural state, etc..." onfocus="activateStep('t1', 't1-step-motivation')"></textarea>
 </div>
-<div class="question-block"><div class="question">If vacant, how long?</div><textarea data-label="Vacancy Length"></textarea></div>
-<div class="question-block"><div class="question">Do you have current photos?</div><textarea data-label="Photos Availability"></textarea></div>
+<div class="question-block"><div class="question">If vacant, how long?</div><textarea data-label="Vacancy Length" onfocus="activateStep('t1', 't1-step-motivation')"></textarea></div>
+<div class="question-block"><div class="question">Do you have current photos?</div><textarea data-label="Photos Availability" onfocus="activateStep('t1', 't1-step-motivation')"></textarea></div>
 
 <div class="section-title">TIMELINE + FINANCIAL</div>
-<div class="question-block"><div class="question">How quickly do you need to sell?</div><textarea data-label="Selling Timeline Urgency"></textarea></div>
-<div class="question-block"><div class="question">Mortgage or free and clear?</div><textarea data-label="Mortgage Encumbrance Status"></textarea></div>
-<div class="question-block"><div class="question">Monthly payment?</div><textarea data-label="Monthly Liability Amount"></textarea></div>
-<div class="question-block"><div class="question">Current or behind?</div><textarea data-label="Payment Standing Status"></textarea></div>
+<div class="question-block"><div class="question">How quickly do you need to sell?</div><textarea data-label="Selling Timeline Urgency" onfocus="activateStep('t1', 't1-step-motivation')"></textarea></div>
+<div class="question-block"><div class="question">Mortgage or free and clear?</div><textarea data-label="Mortgage Encumbrance Status" onfocus="activateStep('t1', 't1-step-anchor')"></textarea></div>
+<div class="question-block"><div class="question">Monthly payment?</div><textarea data-label="Monthly Liability Amount" onfocus="activateStep('t1', 't1-step-anchor')"></textarea></div>
+<div class="question-block"><div class="question">Current or behind?</div><textarea data-label="Payment Standing Status" onfocus="activateStep('t1', 't1-step-anchor')"></textarea></div>
 
 <div class="section-title">PRICE</div>
 <div class="question-block">
 <div class="question">Have you thought about what price you'd want?</div>
-<textarea data-label="Target Asking Price"></textarea>
-<div class="rebuttal">If hesitant: “That’s okay — even a rough range helps us see if this is worth exploring.”</div>
-<div class="rebuttal">If seller asks: “What would you offer?” <br><br>“That’s a great question. My job is to gather details so our acquisitions manager can run accurate numbers.”</div>
+<textarea data-label="Target Asking Price" onfocus="activateStep('t1', 't1-step-anchor')"></textarea>
 </div>
 
 <div class="section-title">CREATIVE FINANCE</div>
 <div class="question-block">
 <div class="question">If cash doesn’t work, would you be open to:</div>
-<select data-label="Creative Financing Openness">
+<select data-label="Creative Financing Openness" onfocus="activateStep('t1', 't1-step-anchor')">
 <option value="">Select Strategy</option>
 <option value="Novation">Novation</option>
 <option value="Owner Financing">Owner Financing</option>
@@ -607,10 +710,8 @@ transform:translateY(-2px);
 <option value="Maybe">Maybe</option>
 <option value="No">No</option>
 </select>
-<div class="rebuttal">Options include novation, owner financing, or taking over mortgage payments.</div>
 </div>
 
-<!-- Standardized Closing Block with dynamic business variable -->
 <div class="closing-script-block">
 <p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
 <p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
@@ -643,18 +744,52 @@ transform:translateY(-2px);
 </div>
 </div>
 
-<!-- TAB 2 -->
+<!-- TAB 2: SELLER SCRIPT -->
 <div id="tab2" class="tab-content">
 <div class="card">
-<h2>🏠 SELLER CALL SCRIPT</h2>
-<div class="question-block"><div class="question">Do you still own the property?</div><textarea data-label="Ownership Status Validation"></textarea></div>
-<div class="question-block"><div class="question">Would you consider a cash offer?</div><textarea data-label="Cash Offer Openness"></textarea></div>
-<div class="question-block"><div class="question">Could you tell me more about the property?</div><textarea data-label="Property Secondary Profile"></textarea></div>
+<h2>🏠 HIGH-CONVERTING SELLER SCRIPT</h2>
 
-<div class="section-title">SELLER MOTIVATION</div>
+<div class="psych-tracker">
+<div class="tracker-step active-step" id="t2-step-hook">1. The Hook</div>
+<div class="tracker-step" id="t2-step-condition">2. Condition</div>
+<div class="tracker-step" id="t2-step-motivation">3. Motivation</div>
+<div class="tracker-step" id="t2-step-anchor">4. Price Anchor</div>
+</div>
+
+<div class="section-title">THE HOOK & CONFIRMATION</div>
+<div class="question-block">
+<div class="question">"Hey <span class="dynamic-seller">[Owner’s Name]</span>, I know this is out of the blue, but do you still own the property over at <span class="dynamic-property">[Property Address]</span>?"</div>
+<textarea data-label="Ownership Confirmation" onfocus="activateStep('t2', 't2-step-hook')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t2-not-selling')">Seller Says: "I'm Not Selling / How'd You Get My Number?"</span>
+<div class="live-rebuttal-box" id="reb-t2-not-selling">
+<strong>Pivoting Script:</strong> "I completely respect that! Honestly, we find that many owners aren't selling until they hear a risk-free, cash valuation that doesn't cost them a dime in commissions. If you don't mind me asking, if you ever <i>did</i> sell down the line, what would be your goal?"
+</div>
+</div>
+
+<div class="question-block">
+<div class="question">"Perfect. Look, we buy properties cash, as-is, meaning you don't make any repairs or pay realtor fees. If we could put together a fair, hassle-free cash offer, would you at least take a look at it?"</div>
+<textarea data-label="Cash Offer Frame Response" onfocus="activateStep('t2', 't2-step-hook')"></textarea>
+</div>
+
+<div class="section-title">THE CONDITION DEEP-DIVE</div>
+<div class="question-block">
+<div class="question">"To make sure I give you a real, accurate number... can you walk me through the house layout? How many beds/baths, and what's the general layout like?"</div>
+<textarea data-label="Property Layout Notes" onfocus="activateStep('t2', 't2-step-condition')"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">"If you were to pass a formal home inspection tomorrow, what are the 2 or 3 things that absolutely need to be updated or fixed up?"</div>
+<textarea data-label="Inspection Reality Check" onfocus="activateStep('t2', 't2-step-condition')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t2-perfect-condition')">Seller Says: "The House Is Absolutely Perfect"</span>
+<div class="live-rebuttal-box" id="reb-t2-perfect-condition">
+<strong>Pivoting Script:</strong> "That's fantastic! It sounds like you've really taken pristine care of it. Usually, even gorgeous homes have older roofs, water heaters, or original wiring. If you had to estimate the age of the roof or central air units, where are we at?"
+</div>
+</div>
+
+<div class="section-title">TIMELINE & MOTIVATION DISCOVERY</div>
 <div class="question-block">
 <div class="question">Why are you considering selling?</div>
-<select data-label="Motivation Type (Seller Script)">
+<select data-label="Seller Motivation Profile" onfocus="activateStep('t2', 't2-step-motivation')">
 <option value="">Select Motivation</option>
 <option value="Preforeclosure">Preforeclosure</option>
 <option value="Divorce">Divorce</option>
@@ -663,16 +798,24 @@ transform:translateY(-2px);
 <option value="Relocation">Relocation</option>
 <option value="Health Issues">Health Issues</option>
 </select>
-<textarea data-label="Motivation Context (Seller Script)" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
-<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+<textarea data-label="Motivation Context (Seller Script)" style="margin-top:4px;" placeholder="What is their primary anchor/pain point pushing the move?" onfocus="activateStep('t2', 't2-step-motivation')"></textarea>
 </div>
 
-<div class="section-title">TIMELINE & VALUE</div>
-<div class="question-block"><div class="question">How quickly would you sell?</div><textarea data-label="Disposition Velocity Needs"></textarea></div>
-<div class="question-block"><div class="question">What price would you want?</div><textarea data-label="Target Baseline Number"></textarea></div>
-<div class="rebuttal">“Even a rough number helps us see if we should explore this further.”</div>
+<div class="question-block">
+<div class="question">"If we hit your exact pricing timeline, when is your ideal moving day? Are we looking to close in 30 days, or do you need a bit more time to transition?"</div>
+<textarea data-label="Ideal Closing Timeline" onfocus="activateStep('t2', 't2-step-motivation')"></textarea>
+</div>
 
-<!-- Standardized Closing Block with dynamic business variable -->
+<div class="section-title">PRICING ANCHOR</div>
+<div class="question-block">
+<div class="question">"Completely understanding that we cover all the closing costs, repair fees, and commissions... what's the absolute baseline number you need to walk away with to make this deal make sense for you?"</div>
+<textarea data-label="Walkaway Baseline Number" onfocus="activateStep('t2', 't2-step-anchor')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t2-high-price')">Seller Says: "Give Me Full Zillow Value"</span>
+<div class="live-rebuttal-box" id="reb-t2-high-price">
+<strong>Pivoting Script:</strong> "I completely get wanting to hit that number. Zillow assumes the house is completely renovated, sitting on the market with an agent for 6 months, and that you're paying 6% in commissions plus closing fees out of pocket. Since we buy as-is with cash in 30 days, where can we meet in the middle?"
+</div>
+</div>
+
 <div class="closing-script-block">
 <p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
 <p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
@@ -692,10 +835,18 @@ transform:translateY(-2px);
 </div>
 </div>
 
-<!-- TAB 3 -->
+<!-- TAB 3: 60-SECOND SCRIPT -->
 <div id="tab3" class="tab-content">
 <div class="card">
 <h2>⚡ 60-SECOND PROPERTY CONDITION SCRIPT</h2>
+
+<!-- 60-Second Blitz Psych Pipeline -->
+<div class="psych-tracker">
+<div class="tracker-step active-step" id="t3-step-hook">1. Out of the Gate</div>
+<div class="tracker-step" id="t3-step-condition">2. High-Speed Diagnostics</div>
+<div class="tracker-step" id="t3-step-motivation">3. Move Plan</div>
+</div>
+
 <div class="question-block">
 <div class="question">Seller says: “Just make me an offer.”</div>
 <div class="rebuttal">“That’s fair. I don’t want to throw out a random number and accidentally disrespect you.”</div>
@@ -704,7 +855,7 @@ transform:translateY(-2px);
 <div class="section-title">SELLER MOTIVATION</div>
 <div class="question-block">
 <div class="question">Why are you considering selling?</div>
-<select data-label="Motivation Type (60s Script)">
+<select data-label="Motivation Type (60s Script)" onfocus="activateStep('t3', 't3-step-hook')">
 <option value="">Select Motivation</option>
 <option value="Preforeclosure">Preforeclosure</option>
 <option value="Divorce">Divorce</option>
@@ -713,19 +864,20 @@ transform:translateY(-2px);
 <option value="Relocation">Relocation</option>
 <option value="Health Issues">Health Issues</option>
 </select>
-<textarea data-label="Motivation Context (60s Script)" style="margin-top:10px;" placeholder="Add deep situational context..."></textarea>
-<div class="rebuttal">“I completely understand. Knowing more about your situation helps us understand how we can best help.”</div>
+<textarea data-label="Motivation Context (60s Script)" style="margin-top:4px;" placeholder="Add deep situational context..." onfocus="activateStep('t3', 't3-step-hook')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t3-ballpark')">Seller Enforces: "Just give me a ballpark number right now or let me go."</span>
+<div class="live-rebuttal-box" id="reb-t3-ballpark">
+<strong>Pivoting Script:</strong> "If I give you a blind ballpark, it will either be way too low and insult you, or artificially high and look like bait-and-switch. Give me exactly 45 seconds to confirm your asset layout details, and I will have an actionable underwritten range ready."
+</div>
 </div>
 
 <div class="section-title">PROPERTY HEALTH CHECK</div>
-<div class="question-block"><div class="question">How old is the roof?</div><textarea data-label="60s Roof Check"></textarea></div>
-<div class="question-block"><div class="question">Kitchen or bathroom updated?</div><textarea data-label="60s Living Space Check"></textarea></div>
-<div class="question-block"><div class="question">Any major repairs needed?</div><textarea data-label="60s Structural Disruption Log"></textarea></div>
-<div class="question-block"><div class="question">Is the property occupied?</div><textarea data-label="60s Physical Occupant Check"></textarea></div>
-<div class="question-block"><div class="question">Would you send photos?</div><textarea data-label="60s Photos Commit"></textarea></div>
-<div class="rebuttal">“This helps us make sure it’s a real win-win offer.”</div>
+<div class="question-block"><div class="question">How old is the roof?</div><textarea data-label="60s Roof Check" onfocus="activateStep('t3', 't3-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Kitchen or bathroom updated?</div><textarea data-label="60s Living Space Check" onfocus="activateStep('t3', 't3-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Any major repairs needed?</div><textarea data-label="60s Structural Disruption Log" onfocus="activateStep('t3', 't3-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Is the property occupied?</div><textarea data-label="60s Physical Occupant Check" onfocus="activateStep('t3', 't3-step-condition')"></textarea></div>
+<div class="question-block"><div class="question">Would you send photos?</div><textarea data-label="60s Photos Commit" onfocus="activateStep('t3', 't3-step-condition')"></textarea></div>
 
-<!-- Standardized Closing Block with dynamic business variable -->
 <div class="closing-script-block">
 <p>Thank you, <strong class="dynamic-seller">[Owner’s Name]</strong>, for answering my questions! Next, I'll share this with our Acquisition Manager. He/She will team up with one of our trusted realtors to do a thorough market analysis of your property.</p>
 <p>Once that’s done, we’ll get back to you with our offer and talk about how we can help.</p>
@@ -735,7 +887,7 @@ transform:translateY(-2px);
 
 <div class="question-block">
 <div class="question">Write any other info you feel is important</div>
-<textarea data-label="60s Operational Log Notes" placeholder="Drop any additional critical details here..."></textarea>
+<textarea data-label="60s Operational Log Notes" placeholder="Drop any additional critical details here..." onfocus="activateStep('t3', 't3-step-motivation')"></textarea>
 </div>
 
 <div class="button-row">
@@ -763,14 +915,35 @@ function toggleTheme() {
     }
 }
 
+// Globalized Multi-Tab Progress Step Tracker Toggler
+function activateStep(tabPrefix, stepId) {
+    document.querySelectorAll(`#${tabPrefix} .tracker-step`).forEach(step => {
+        step.classList.remove('active-step');
+    });
+    const target = document.getElementById(stepId);
+    if(target) target.classList.add('active-step');
+}
+
+// Instant Objection Drawer Handler
+function toggleLiveRebuttal(drawerId) {
+    const block = document.getElementById(drawerId);
+    if(block.style.display === "block") {
+        block.style.display = "none";
+    } else {
+        block.style.display = "block";
+    }
+}
+
 const businessInput = document.getElementById('globalBusinessName');
 const sellerInput = document.getElementById('globalSellerName');
 const agentInput = document.getElementById('globalAgentName');
+const propertyInput = document.getElementById('globalPropertyAddress');
 
 function updateDynamicNames() {
     const businessName = businessInput.value.trim() || "(Your Company)";
     const sellerName = sellerInput.value.trim() || "[Owner's Name]";
     const agentName = agentInput.value.trim() || "[VA Name]";
+    const propertyAddress = propertyInput.value.trim() || "[Property Address]";
     
     document.querySelectorAll('.dynamic-business').forEach(el => {
         el.innerText = businessName;
@@ -783,11 +956,16 @@ function updateDynamicNames() {
     document.querySelectorAll('.dynamic-agent').forEach(el => {
         el.innerText = agentName;
     });
+
+    document.querySelectorAll('.dynamic-property').forEach(el => {
+        el.innerText = propertyAddress;
+    });
 }
 
 businessInput.addEventListener('input', updateDynamicNames);
 sellerInput.addEventListener('input', updateDynamicNames);
 agentInput.addEventListener('input', updateDynamicNames);
+propertyInput.addEventListener('input', updateDynamicNames);
 
 function openTab(evt, tabName){
 let tabcontent = document.getElementsByClassName("tab-content");
@@ -836,10 +1014,10 @@ y += 15;
 doc.setFontSize(11);
 doc.setFont("helvetica", "normal");
 
-const business = document.getElementById("globalBusinessName").value || "(Your Company)";
-const seller = document.getElementById("globalSellerName").value || "N/A";
-const property = document.getElementById("globalPropertyAddress").value || "N/A";
-const agent = document.getElementById("globalAgentName").value || "N/A";
+const business = businessInput.value || "(Your Company)";
+const seller = sellerInput.value || "N/A";
+const property = propertyInput.value || "N/A";
+const agent = agentInput.value || "N/A";
 const phone = document.getElementById("globalPhoneNumber").value || "N/A";
 
 doc.text("Company: " + business, 10, y); y += 8;
