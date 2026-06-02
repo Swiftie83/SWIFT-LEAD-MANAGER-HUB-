@@ -571,6 +571,7 @@ transform:translateY(-2px);
 <button class="tab-btn active" onclick="openTab(event,'tab1')">📞 Intake Call Script</button>
 <button class="tab-btn" onclick="openTab(event,'tab2')">🏠 Seller Call Script</button>
 <button class="tab-btn" onclick="openTab(event,'tab3')">⚡ 60-Second Offer Script</button>
+<button class="tab-btn" onclick="openTab(event,'tab4')" style="border-color: #d97706; font-weight: 800;">🚨 Pre-Foreclosure Script</button>
 </div>
 
 <div>
@@ -888,6 +889,87 @@ transform:translateY(-2px);
 <div class="question-block">
 <div class="question">Write any other info you feel is important</div>
 <textarea data-label="60s Operational Log Notes" placeholder="Drop any additional critical details here..." onfocus="activateStep('t3', 't3-step-motivation')"></textarea>
+</div>
+
+<div class="button-row">
+<button class="btn save-btn" onclick="alert('Lead Workspace Locally Saved!')">Save Lead</button>
+<button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 4: PRE-FORECLOSURE ACQUISITION SCRIPT -->
+<div id="tab4" class="tab-content">
+<div class="card">
+<h2>🚨 PRE-FORECLOSURE ACQUISITION SCRIPT</h2>
+
+<!-- Pre-Foreclosure Tracker -->
+<div class="psych-tracker">
+<div class="tracker-step active-step" id="t4-step-hook">1. Empathy Hook</div>
+<div class="tracker-step" id="t4-step-deep">2. Foreclosure Deep-Dive</div>
+<div class="tracker-step" id="t4-step-debt">3. Debt Structuring</div>
+<div class="tracker-step" id="t4-step-blueprint">4. Resolution Blueprint</div>
+</div>
+
+<div class="section-title">THE EMPATHY HOOK & SENSITIVE APPROACH</div>
+<div class="question-block">
+<div class="question">"Hello <span class="dynamic-seller">[Owner’s Name]</span>? My name is <span class="dynamic-agent">[VA Name]</span> with <span class="dynamic-business">(Your Company)</span>. I'm reaching out because our system flagged the property at <span class="dynamic-property">[Property Address]</span> as showing up on public notices recently. We specialize in helping homeowners navigate stressful timeline situations directly with banks. I just wanted to see if you are looking to stay in the home, or if you're exploring options to transition out smoothly?"</div>
+<textarea data-label="Pre-Foreclosure Empathy Opening" onfocus="activateStep('t4', 't4-step-hook')"></textarea>
+<span class="instant-rebuttal-btn" onclick="toggleLiveRebuttal('reb-t4-lawyer')">Seller Says: "I'm working with an attorney / My bank is handling it"</span>
+<div class="live-rebuttal-box" id="reb-t4-lawyer">
+<strong>Pivoting Script:</strong> "That is excellent that you have representation! Attorneys are great for pushing back dates, but they don't bring cash to closing to actually discharge the balance. We work directly alongside owners to establish real backup solutions so you don't face an abrupt exit if your current option stalls out."
+</div>
+</div>
+
+<div class="section-title">TIMELINE & FORECLOSURE DEEP-DIVE</div>
+<div class="question-block">
+<div class="question">"To ensure we construct the correct game plan, have you been assigned an official Auction or Sheriff Sale date yet by the county or courts?"</div>
+<select data-label="Auction Date Status" onfocus="activateStep('t4', 't4-step-deep')">
+<option value="">Is Auction Date Set?</option>
+<option value="Yes - Within 30 Days">Yes - Within 30 Days</option>
+<option value="Yes - 30-90 Days Out">Yes - 30-90 Days Out</option>
+<option value="No Date Set Yet">No Date Set Yet</option>
+<option value="Unsure / Avoided">Unsure / Avoided</option>
+</select>
+<textarea data-label="Specific Auction Date Details" style="margin-top:4px;" placeholder="Enter specific date or notes here..." onfocus="activateStep('t4', 't4-step-deep')"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">"Have you attempted to work out a Loan Modification, Forbearance agreement, or Short Sale directly with your current lender?"</div>
+<textarea data-label="Lender Mitigation History" onfocus="activateStep('t4', 't4-step-deep')"></textarea>
+</div>
+
+<div class="section-title">DEBT STRUCTURING & LIEN OVERVIEW</div>
+<div class="question-block">
+<div class="question">"In order to accurately build out a full payout strategy that leaves your credit intact, do you know roughly what the total reinstatement amount is to bring the mortgage completely current right now?"</div>
+<textarea data-label="Reinstatement Amount Balance" onfocus="activateStep('t4', 't4-step-debt')"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">"And what is the total remaining payoff balance left on that primary mortgage statement?"</div>
+<textarea data-label="Total Mortgage Payoff" onfocus="activateStep('t4', 't4-step-debt')"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">"Are there any secondary liabilities tied to the title that we need to handle for you, like a second mortgage, tax liens, HOA dues, or mechanics liens?"</div>
+<textarea data-label="Secondary Liens / Tax Encumbrances" onfocus="activateStep('t4', 't4-step-debt')"></textarea>
+</div>
+
+<div class="section-title">RESOLUTION BLUEPRINT & CLOSING CAPTURE</div>
+<div class="question-block">
+<div class="question">"If we can step in, handle your back payments entirely, and coordinate a cash option that allows you to walk away cleanly with credit protection and cash in your pocket to relocate, would that be a path you'd want to run with?"</div>
+<textarea data-label="Resolution Blueprint Commitment" onfocus="activateStep('t4', 't4-step-blueprint')"></textarea>
+</div>
+
+<div class="closing-script-block">
+<p>Thank you for your transparency, <strong class="dynamic-seller">[Owner’s Name]</strong>. Time is our absolute highest priority right now since the bank works on fixed deadlines. I am going to escalate your file instantly to our Senior Acquisition Specialist.</p>
+<p>They will pull the specific title details and formulate an emergency cash blueprint or structural adjustment approach to step between you and the lender.</p>
+<p><strong>Hang tight—<span class="dynamic-business">(Your Company)</span> is on your side, and we will guide you through this step-by-step!</strong></p>
+</div>
+
+<div class="question-block">
+<div class="question">Crucial Pre-Foreclosure Log Notes</div>
+<textarea data-label="Pre-Foreclosure Emergency Log" placeholder="Drop urgent foreclosure tracking data, communication patterns, or banking agent names here..." onfocus="activateStep('t4', 't4-step-blueprint')"></textarea>
 </div>
 
 <div class="button-row">
