@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +23,7 @@
 --text-muted: #6b7280;
 --border-color: #d1d5db;
 --card-shadow: rgba(0,0,0,0.05);
---dynamic-highlight: #2563eb; /* High visibility blue for light mode */
+--dynamic-highlight: #2563eb; 
 }
 
 [data-theme="dark"] {
@@ -38,7 +37,7 @@
 --text-muted: #9ca3af;
 --border-color: #4b5563;
 --card-shadow: rgba(0,0,0,0.3);
---dynamic-highlight: #60a5fa; /* Crisp, readable blue for dark mode */
+--dynamic-highlight: #60a5fa; 
 }
 
 *{
@@ -79,7 +78,7 @@ background: var(--bg-header);
 padding:20px;
 border-bottom:1px solid var(--border-color);
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
 transition: background 0.3s, border-color 0.3s;
 }
@@ -87,6 +86,38 @@ transition: background 0.3s, border-color 0.3s;
 .container{
 display:flex;
 min-height:100vh;
+}
+
+/* Flex layout helper for address + Zillow button alignment */
+.input-with-action {
+display: flex;
+gap: 6px;
+align-items: center;
+margin-top: 4px;
+}
+
+/* Sleek, tiny blue Z button */
+.zillow-btn {
+background: #006aff;
+color: #ffffff;
+border: none;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+font-weight: 800;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.2s, transform 0.2s;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+box-shadow: 0 2px 4px rgba(0, 106, 255, 0.2);
+}
+
+.zillow-btn:hover {
+background: #0056ce;
+transform: scale(1.05);
 }
 
 .sidebar{
@@ -297,7 +328,6 @@ margin-bottom:6px;
 line-height:1.6;
 }
 
-/* DYNAMIC CONTENT REPLACEMENT BLUE HIGHLIGHTS */
 .dynamic-business,
 .dynamic-seller,
 .dynamic-agent,
@@ -307,7 +337,6 @@ font-weight: 700;
 transition: color 0.3s;
 }
 
-/* INTERACTIVE PSYCHOLOGICAL TRACKER SYSTEM */
 .psych-tracker {
 display: flex;
 justify-content: space-between;
@@ -337,7 +366,6 @@ color: #ffffff;
 box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
 }
 
-/* INSTANT REBUTTAL INJECTIONS */
 .instant-rebuttal-btn {
 background: none;
 border: 1px solid #2563eb;
@@ -375,7 +403,6 @@ color: #fef3c7;
 border-left-color: #f59e0b;
 }
 
-/* Standardized Input Styling */
 textarea,
 input,
 select{
@@ -406,6 +433,7 @@ resize:vertical;
 .global-bar input {
 padding: 10px 14px;
 border-radius: 10px;
+margin-top: 4px;
 }
 
 .rebuttal{
@@ -469,7 +497,7 @@ background:#fee2e2;
 color:#991b1b;
 }
 
-.warm-option覆{
+.warm-option{
 background:#fef3c7;
 color:#92400e;
 }
@@ -547,7 +575,11 @@ transform:translateY(-2px);
 
 <div>
 <label><strong>Property Address</strong></label>
+<div class="input-with-action">
+<!-- REMOVED inline onclick attribute to avoid browser execution collision -->
 <input type="text" id="globalPropertyAddress" placeholder="123 Main St">
+<button type="button" class="zillow-btn" id="runZillowCompsBtn" title="Run Comps">Z</button>
+</div>
 </div>
 
 <div>
@@ -611,7 +643,6 @@ transform:translateY(-2px);
 <div class="card">
 <h2>📞 FULL INTAKE CALL SCRIPT</h2>
 
-<!-- Intake Psych Pipeline -->
 <div class="psych-tracker">
 <div class="tracker-step active-step" id="t1-step-hook">1. Intro Hook</div>
 <div class="tracker-step" id="t1-step-condition">2. Diagnostics</div>
@@ -843,7 +874,6 @@ transform:translateY(-2px);
 <div class="card">
 <h2>⚡ 60-SECOND PROPERTY CONDITION SCRIPT</h2>
 
-<!-- 60-Second Blitz Psych Pipeline -->
 <div class="psych-tracker">
 <div class="tracker-step active-step" id="t3-step-hook">1. Out of the Gate</div>
 <div class="tracker-step" id="t3-step-condition">2. High-Speed Diagnostics</div>
@@ -905,7 +935,6 @@ transform:translateY(-2px);
 <div class="card">
 <h2>🚨 PRE-FORECLOSURE ACQUISITION SCRIPT</h2>
 
-<!-- Pre-Foreclosure Tracker -->
 <div class="psych-tracker">
 <div class="tracker-step active-step" id="t4-step-hook">1. Empathy Hook</div>
 <div class="tracker-step" id="t4-step-deep">2. Foreclosure Deep-Dive</div>
@@ -999,7 +1028,6 @@ function toggleTheme() {
     }
 }
 
-// Globalized Multi-Tab Progress Step Tracker Toggler
 function activateStep(tabPrefix, stepId) {
     document.querySelectorAll(`#${tabPrefix} .tracker-step`).forEach(step => {
         step.classList.remove('active-step');
@@ -1008,7 +1036,6 @@ function activateStep(tabPrefix, stepId) {
     if(target) target.classList.add('active-step');
 }
 
-// Instant Objection Drawer Handler
 function toggleLiveRebuttal(drawerId) {
     const block = document.getElementById(drawerId);
     if(block.style.display === "block") {
@@ -1022,6 +1049,28 @@ const businessInput = document.getElementById('globalBusinessName');
 const sellerInput = document.getElementById('globalSellerName');
 const agentInput = document.getElementById('globalAgentName');
 const propertyInput = document.getElementById('globalPropertyAddress');
+const compButton = document.getElementById('runZillowCompsBtn');
+
+// FIXED: Hardbound click listener configuration to protect browser security boundaries
+if (compButton) {
+    compButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!propertyInput) return;
+        const rawAddress = propertyInput.value.trim();
+
+        if (!rawAddress || rawAddress === "[Property Address]") {
+            alert("Please type or paste a valid property address first.");
+            return;
+        }
+
+        // Clean out spaces, clean special formatting anomalies, clean list carriage returns
+        const optimizedAddress = rawAddress.replace(/\s+/g, ' ');
+        const targetUrl = "https://www.zillow.com/homes/" + encodeURIComponent(optimizedAddress) + "_rb/";
+        
+        window.open(targetUrl, "_blank");
+    });
+}
 
 function updateDynamicNames() {
     const businessName = businessInput.value.trim() || "(Your Company)";
@@ -1046,113 +1095,121 @@ function updateDynamicNames() {
     });
 }
 
-businessInput.addEventListener('input', updateDynamicNames);
-sellerInput.addEventListener('input', updateDynamicNames);
-agentInput.addEventListener('input', updateDynamicNames);
-propertyInput.addEventListener('input', updateDynamicNames);
+// BINDINGS: Multi-channel listener architecture to hook typing, auto-fills, and click pastes instantly
+if (businessInput) businessInput.addEventListener('input', updateDynamicNames);
+if (sellerInput) sellerInput.addEventListener('input', updateDynamicNames);
+if (agentInput) agentInput.addEventListener('input', updateDynamicNames);
+
+if (propertyInput) {
+    propertyInput.addEventListener('input', updateDynamicNames);
+    propertyInput.addEventListener('change', updateDynamicNames);
+    propertyInput.addEventListener('paste', () => {
+        setTimeout(updateDynamicNames, 40);
+    });
+}
 
 function openTab(evt, tabName){
-let tabcontent = document.getElementsByClassName("tab-content");
-for(let i=0;i<tabcontent.length;i++){
-tabcontent[i].style.display="none";
-tabcontent[i].classList.remove("active");
-}
-let tabbuttons = document.getElementsByClassName("tab-btn");
-for(let i=0;i<tabbuttons.length;i++){
-tabbuttons[i].classList.remove("active");
-}
-const currentTab = document.getElementById(tabName);
-currentTab.style.display="block";
-currentTab.classList.add("active");
-evt.currentTarget.classList.add("active");
+    let tabcontent = document.getElementsByClassName("tab-content");
+    for(let i=0;i<tabcontent.length;i++){
+        tabcontent[i].style.display="none";
+        tabcontent[i].classList.remove("active");
+    }
+    let tabbuttons = document.getElementsByClassName("tab-btn");
+    for(let i=0;i<tabbuttons.length;i++){
+        tabbuttons[i].classList.remove("active");
+    }
+    const currentTab = document.getElementById(tabName);
+    currentTab.style.display="block";
+    currentTab.classList.add("active");
+    evt.currentTarget.classList.add("active");
 }
 
 const leadOptions = document.querySelectorAll('.lead-option');
 leadOptions.forEach(option => {
-option.addEventListener('click', () => {
-leadOptions.forEach(o => o.classList.remove('active'));
-option.classList.add('active');
-const radio = option.querySelector('input[type="radio"]');
-if(radio) radio.checked = true;
-});
+    option.addEventListener('click', () => {
+        leadOptions.forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        const radio = option.querySelector('input[type="radio"]');
+        if(radio) radio.checked = true;
+    });
 });
 
 function copyDispoNote() {
-const pad = document.getElementById("dispoScratchpad");
-pad.select();
-pad.setSelectionRange(0, 99999);
-navigator.clipboard.writeText(pad.value);
-alert("Dispo Note copied to clipboard!");
+    const pad = document.getElementById("dispoScratchpad");
+    pad.select();
+    pad.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(pad.value);
+    alert("Dispo Note copied to clipboard!");
 }
 
 async function downloadPDF(){
-const { jsPDF } = window.jspdf;
-const doc = new jsPDF();
-let y = 20;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 20;
 
-doc.setFont("helvetica", "bold");
-doc.setFontSize(22);
-doc.text("SWIFT LEAD MANAGER HUB™", 10, y);
-y += 15;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("SWIFT LEAD MANAGER HUB™", 10, y);
+    y += 15;
 
-doc.setFontSize(11);
-doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
 
-const business = businessInput.value || "(Your Company)";
-const seller = sellerInput.value || "N/A";
-const property = propertyInput.value || "N/A";
-const agent = agentInput.value || "N/A";
-const phone = document.getElementById("globalPhoneNumber").value || "N/A";
+    const business = businessInput.value || "(Your Company)";
+    const seller = sellerInput.value || "N/A";
+    const property = propertyInput.value || "N/A";
+    const agent = agentInput.value || "N/A";
+    const phone = document.getElementById("globalPhoneNumber").value || "N/A";
 
-doc.text("Company: " + business, 10, y); y += 8;
-doc.text("Seller: " + seller, 10, y); y += 8;
-doc.text("Property: " + property, 10, y); y += 8;
-doc.text("Agent: " + agent, 10, y); y += 8;
-doc.text("Phone: " + phone, 10, y); y += 14;
+    doc.text("Company: " + business, 10, y); y += 8;
+    doc.text("Seller: " + seller, 10, y); y += 8;
+    doc.text("Property: " + property, 10, y); y += 8;
+    doc.text("Agent: " + agent, 10, y); y += 8;
+    doc.text("Phone: " + phone, 10, y); y += 14;
 
-doc.setLineWidth(0.5);
-doc.line(10, y, 200, y);
-y += 12;
+    doc.setLineWidth(0.5);
+    doc.line(10, y, 200, y);
+    y += 12;
 
-const activeTab = document.querySelector(".tab-content.active");
-if(activeTab) {
-const titleText = activeTab.querySelector("h2").innerText;
-doc.setFont("helvetica", "bold");
-doc.setFontSize(14);
-doc.text(titleText, 10, y);
-y += 10;
-doc.setFont("helvetica", "normal");
-doc.setFontSize(11);
+    const activeTab = document.querySelector(".tab-content.active");
+    if(activeTab) {
+        const titleText = activeTab.querySelector("h2").innerText;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text(titleText, 10, y);
+        y += 10;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
 
-const operationalFields = activeTab.querySelectorAll('textarea, select');
-operationalFields.forEach(field => {
-let val = field.value;
-let descriptiveLabel = field.getAttribute("data-label") || "Input Field";
+        const operationalFields = activeTab.querySelectorAll('textarea, select');
+        operationalFields.forEach(field => {
+            let val = field.value;
+            let descriptiveLabel = field.getAttribute("data-label") || "Input Field";
 
-if(val && val.trim() !== "") {
-let textLine = descriptiveLabel + ": " + val.trim();
-let splitLines = doc.splitTextToSize(textLine, 180);
+            if(val && val.trim() !== "") {
+                let textLine = descriptiveLabel + ": " + val.trim();
+                let splitLines = doc.splitTextToSize(textLine, 180);
 
-doc.text(splitLines, 10, y);
-y += splitLines.length * 7 + 2;
+                doc.text(splitLines, 10, y);
+                y += splitLines.length * 7 + 2;
 
-if(y > 270){
-doc.addPage();
-y = 20;
-}
-}
-});
-}
+                if(y > 270){
+                    doc.addPage();
+                    y = 20;
+                }
+            }
+        });
+    }
 
-const selectedLead = document.querySelector('input[name="leadStatus"]:checked');
-if(selectedLead){
-y += 8;
-doc.setFont("helvetica", "bold");
-doc.setFontSize(14);
-doc.text("LEAD STATUS: " + selectedLead.value, 10, y);
-}
+    const selectedLead = document.querySelector('input[name="leadStatus"]:checked');
+    if(selectedLead){
+        y += 8;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text("LEAD STATUS: " + selectedLead.value, 10, y);
+    }
 
-doc.save("Swift-Lead-Manager.pdf");
+    doc.save("Swift-Lead-Manager.pdf");
 }
 </script>
 </body>
