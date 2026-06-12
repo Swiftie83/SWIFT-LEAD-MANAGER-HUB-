@@ -605,6 +605,7 @@ transform:translateY(-2px);
 <button class="tab-btn" onclick="openTab(event,'tab2')">🏠 Seller Call Script</button>
 <button class="tab-btn" onclick="openTab(event,'tab3')">⚡ 60-Second Offer Script</button>
 <button class="tab-btn" onclick="openTab(event,'tab4')" style="border-color: #d97706; font-weight: 800;">🚨 Pre-Foreclosure Script</button>
+<button class="tab-btn" onclick="openTab(event,'tab5')" style="border-color: #2563eb; font-weight: 800;">⏱️ Expired Listings</button>
 </div>
 
 <div>
@@ -1001,6 +1002,109 @@ transform:translateY(-2px);
 <div class="question-block">
 <div class="question">Write any other info you feel is important</div>
 <textarea data-label="Pre-Foreclosure Emergency Log" placeholder="Drop urgent foreclosure tracking data, communication patterns, or banking agent names here..." onfocus="activateStep('t4', 't4-step-blueprint')"></textarea>
+</div>
+
+<div class="button-row">
+<button class="btn save-btn" onclick="alert('Lead Workspace Locally Saved!')">Save Lead</button>
+<button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 5: EXPIRED LISTINGS SCRIPT -->
+<div id="tab5" class="tab-content">
+<div class="card">
+<h2>⏱️ EXPIRED LISTINGS SCRIPT</h2>
+
+<div class="psych-tracker">
+<div class="tracker-step active-step" id="t5-step-hook">1. Out of the Market Hook</div>
+<div class="tracker-step" id="t5-step-motivation">2. Motivation & Alignment</div>
+<div class="tracker-step" id="t5-step-discovery">3. Price Discovery</div>
+<div class="tracker-step" id="t5-step-closing">4. Options Closing</div>
+</div>
+
+<div class="section-title">OPENING HOOK</div>
+<div class="question-block">
+<div class="question">You: "Hi, is this <span class="dynamic-seller">[Seller Name]</span>?"</div>
+<textarea data-label="Seller Name Check" onfocus="activateStep('t5', 't5-step-hook')" placeholder="Seller Answer: Yes."></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">You: "My name is <span class="dynamic-agent">{{Agent Name}}</span> with <span class="dynamic-business">{{Company name}}</span>. I'm calling about the property on <span class="dynamic-property">{{Address}}</span>. I noticed the listing came off the market and I was curious—did you still want to sell it, or are you taking a break for now?"</div>
+<textarea data-label="Expired Listing Pitch Response" onfocus="activateStep('t5', 't5-step-hook')" placeholder="(Pause. Let them talk.)"></textarea>
+</div>
+
+<div class="section-title">IF THEY WANT TO SELL</div>
+<div class="question-block">
+<div class="question">You: "Got it. Out of curiosity, what do you think stopped it from selling?"</div>
+<textarea data-label="Stalled Analysis Notes" onfocus="activateStep('t5', 't5-step-motivation')" placeholder="(Listen carefully.)"></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">You: "If you could wave a magic wand and get the property sold, what would that ideally look like?"</div>
+<textarea data-label="Ideal Outcome Vision" onfocus="activateStep('t5', 't5-step-motivation')"></textarea>
+</div>
+
+<div class="section-title">MOTIVATION QUESTIONS</div>
+<div class="question-block">
+<div class="question">"Why were you looking to sell in the first place?"</div>
+<textarea data-label="Initial Motivation Trigger" onfocus="activateStep('t5', 't5-step-motivation')"></textarea>
+</div>
+<div class="question-block">
+<div class="question">"Has anything changed since the listing expired?"</div>
+<textarea data-label="Expired Adjustments History" onfocus="activateStep('t5', 't5-step-motivation')"></textarea>
+</div>
+<div class="question-block">
+<div class="question">"If you found the right solution, how soon would you like to sell?"</div>
+<textarea data-label="Ideal Selling Speed Window" onfocus="activateStep('t5', 't5-step-motivation')"></textarea>
+</div>
+<div class="question-block">
+<div class="question">"What happens if the property doesn't sell in the next 30 to 60 days?"</div>
+<textarea data-label="Stagnancy Impact Risk Analysis" onfocus="activateStep('t5', 't5-step-motivation')"></textarea>
+</div>
+
+<div class="section-title">TRANSITION FRAME</div>
+<div class="question-block">
+<div class="question">You: "The reason I ask is that my company buys properties directly. Sometimes we pay cash, sometimes we use creative financing depending on the situation. I'd like to see if we can create a solution that works for both of us."</div>
+<textarea data-label="Direct Buyer Pivot Intake" onfocus="activateStep('t5', 't5-step-discovery')"></textarea>
+</div>
+
+<div class="section-title">PRICE DISCOVERY</div>
+<div class="question-block">
+<div class="question">You: "What was the last list price?"</div>
+<textarea data-label="Historical List Price Target" onfocus="activateStep('t5', 't5-step-discovery')" placeholder="Seller answers."></textarea>
+</div>
+
+<div class="question-block">
+<div class="question">You: "If we could eliminate commissions, repairs, showings, inspections, and uncertainty, what's the lowest price you'd realistically consider?"</div>
+<textarea data-label="Absolute Baseline Walkaway Number" onfocus="activateStep('t5', 't5-step-discovery')" placeholder="(Stay quiet. Let them answer first.)"></textarea>
+</div>
+
+<div class="section-title">LIVE REBUTTAL WORKBENCH</div>
+<div class="question-block">
+<div class="question">Objection: "I'm Relisting"</div>
+<div class="rebuttal">You: "I understand. Before you relist, let me ask you this: if another agent could get it sold, wouldn't the last one have done it already? What do you think will be different this time?"</div>
+</div>
+
+<div class="question-block">
+<div class="question">Objection: "I Want Retail Price"</div>
+<div class="rebuttal">You: "I completely understand. If I were selling, I'd want top dollar too. My question is: what's more important to you right now—getting the highest possible price or getting the property sold with certainty?"</div>
+</div>
+
+<div class="question-block">
+<div class="question">Objection: "How Did You Get My Number?"</div>
+<div class="rebuttal">You: "I work with homeowners whose properties recently came off the market. Your information is publicly available through real estate data sources."</div>
+</div>
+
+<div class="section-title">APPOINTMENT CLOSING STRATEGY</div>
+<div class="question-block">
+<div class="question">You: "Based on what you've told me, it sounds like there may be a fit. The next step is simple. Let me take a look at the property and put together some options. If one makes sense, great. If not, no pressure. Does tomorrow afternoon or evening work better?"</div>
+<textarea data-label="Closing Schedule Set" onfocus="activateStep('t5', 't5-step-closing')"></textarea>
+</div>
+
+<div class="closing-script-block" style="border-left-color: #2563eb;">
+<p><strong>The Real Secret:</strong> The biggest mistake wholesalers make is trying to get a contract on Call #1.</p>
+<p>Top performers often get contracts after: 5–15 follow-ups • Multiple texts • Multiple calls • Building rapport over weeks.</p>
 </div>
 
 <div class="button-row">
